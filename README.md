@@ -1,28 +1,31 @@
 # Notificação de Clima com AWS Lambda, SNS e OpenWeatherMap
 Este projeto envia notificações por e-mail sobre o clima atual de uma cidade. Utilizando a API OpenWeatherMap, a AWS Lambda busca as condições climáticas e envia as informações para os destinatários através do Amazon SNS (Simple Notification Service). A execução automática da função Lambda é agendada com Amazon EventBridge.
 
-🚀 Recursos Utilizados
+#🚀 Recursos Utilizados
 AWS Lambda: Serviço serverless da AWS para executar a função que obtém os dados climáticos e envia as notificações.
 Amazon SNS (Simple Notification Service): Serviço de mensagens da AWS que envia as notificações por e-mail.
 Amazon EventBridge: Serviço da AWS que agenda a execução automática da função Lambda.
 OpenWeatherMap API: API que fornece informações sobre o clima em tempo real para qualquer cidade do mundo.
 Python 3.x: Linguagem utilizada para desenvolver a função Lambda.
 
-📝 Pré-Requisitos
+#📝 Pré-Requisitos
 Antes de começar, você precisará de:
 
 Uma conta na AWS.
 Uma chave de API do OpenWeatherMap (se ainda não tiver, cadastre-se aqui).
 Permissões adequadas no IAM para configurar o Lambda, SNS e EventBridge.
 ⚙️ Como Configurar o Projeto
+
 Passo 1: Obter a Chave da API do OpenWeatherMap
 Acesse o OpenWeatherMap e crie uma conta.
 Após o cadastro, gere uma chave de API que será usada para consultar as condições climáticas de uma cidade.
+
 Passo 2: Criar um Tópico no SNS
 Acesse o Console da AWS e navegue até Amazon SNS.
 Crie um novo tópico (por exemplo, "Notificações de Clima").
 No tópico, adicione os e-mails que devem receber as notificações.
 Copie o ARN do tópico SNS. Este ARN será utilizado na função Lambda para enviar as notificações.
+
 Passo 3: Configurar a Função Lambda
 No Console da AWS, vá até AWS Lambda e crie uma nova função com o runtime Python 3.9.
 No código da função, substitua as variáveis:
