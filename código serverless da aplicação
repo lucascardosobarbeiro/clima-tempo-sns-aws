@@ -1,0 +1,63 @@
+import json
+import urllib3
+import boto3
+import os
+
+def lambda_handler(event, context):
+    http = urllib3.PoolManager()
+    
+    # API do OpenWeatherMap
+    API_KEY = os.environ.get('API_KEY')
+    cidade = "São Paulo"
+    
+    if not API_KEY:
+        return {
+            'statusCode': 400,
+            'body': json.dumps('API_KEY não configurada nas variáveis de ambiente!')
+        }
+
+    # Obtém os dados climáticos
+    url = f"https://api.openweathermap.org/data/2.5/weather?q={cidade}&appid={API_KEY}&units=metric&lang=pt_br"
+    response = http.request('GET', url)
+    dados_clima = json.loads(response.data.decode('utf-8'))
+    
+    # Verifica se houve erro na API
+    if 'cod' in dados_clima and dados_clima['cod'] != 200:
+        return {
+            'statusCode': 400,
+            'body': json.dumps(f"Erro na API do OpenWeather: {dados_clima.get('message', 'Erro desconhecido')}")
+        }
+    
+    try:
+        # Formata a mensagem para enviar
+        mensagem = f"""
+        Clima em {cidade}:
+        Temperatura: {dados_clima['main']['temp']}°C
+        Sensação: {dados_clima['main']['feels_like']}°C
+        Umidade: {dados_clima['main']['humidity']}%
+        Condição: {dados_clima['weather'][0]['description']}
+        """
+        
+        # Envia a notificação para o SNS
+        sns = boto3.client('sns')
+        sns.publish(
+            TopicArn='arn:aws:sns:us-east-1:605134428164:bot_weather',  # Substitua pelo seu ARN do SNS
+            Message=mensagem,
+            Subject='Previsão do Tempo'
+        )
+        
+        return {
+            'statusCode': 200,
+            'body': json.dumps('Notificação enviada com sucesso!')
+        }
+        
+    except KeyError as e:
+        return {
+            'statusCode': 500,
+            'body': json.dumps(f'Erro ao processar dados do clima: {str(e)}')
+        }
+    except Exception as e:
+        return {
+            'statusCode': 500,
+            'body': json.dumps(f'Erro inesperado: {str(e)}')
+        }
