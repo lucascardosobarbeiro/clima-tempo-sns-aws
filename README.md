@@ -1,36 +1,48 @@
-Notificação de Clima com AWS Lambda, SNS e OpenWeatherMap
-Este projeto foi desenvolvido para enviar notificações sobre o clima atual de uma cidade por e-mail. A função Lambda busca as condições climáticas utilizando a API OpenWeatherMap e envia as informações por meio do Amazon SNS (Simple Notification Service). Além disso, utilizamos o Amazon EventBridge para agendar a execução automática da função em intervalos regulares.
+#Notificação de Clima com AWS Lambda, SNS e OpenWeatherMap#
+Este projeto envia notificações por e-mail sobre o clima atual de uma cidade. Utilizando a API OpenWeatherMap, a AWS Lambda busca as condições climáticas e envia as informações para os destinatários através do Amazon SNS (Simple Notification Service). A execução automática da função Lambda é agendada com Amazon EventBridge.
 
-Recursos Utilizados
-AWS Lambda: Serviço de computação serverless da AWS, usado para rodar a função que busca os dados climáticos e envia as notificações.
-Amazon SNS: Serviço de mensagens da AWS, responsável por enviar as notificações por e-mail.
-Amazon EventBridge: Serviço da AWS que orquestra e agendou a execução automática da função Lambda em intervalos específicos.
-OpenWeatherMap API: API gratuita que fornece informações sobre o clima em tempo real para qualquer cidade do mundo.
-Python 3.x: Linguagem de programação utilizada para desenvolver o código da função Lambda.
-Pré-Requisitos
+#🚀 Recursos Utilizados#
+AWS Lambda: Serviço serverless da AWS para executar a função que obtém os dados climáticos e envia as notificações.
+Amazon SNS (Simple Notification Service): Serviço de mensagens da AWS que envia as notificações por e-mail.
+Amazon EventBridge: Serviço da AWS que agenda a execução automática da função Lambda.
+OpenWeatherMap API: API que fornece informações sobre o clima em tempo real para qualquer cidade do mundo.
+Python 3.x: Linguagem utilizada para desenvolver a função Lambda.
+
+#📝 Pré-Requisitos#
 Antes de começar, você precisará de:
 
 Uma conta na AWS.
-Uma chave de API da OpenWeatherMap. Cadastre-se aqui para obter a chave.
-Acesso à AWS SNS para criar um tópico de e-mail para enviar notificações.
+Uma chave de API do OpenWeatherMap (se ainda não tiver, cadastre-se aqui).
 Permissões adequadas no IAM para configurar o Lambda, SNS e EventBridge.
-Como Configurar o Projeto
+⚙️ Como Configurar o Projeto
 Passo 1: Obter a Chave da API do OpenWeatherMap
-Crie uma conta no OpenWeatherMap.
-Após se cadastrar, gere uma chave de API que será utilizada para consultar as condições climáticas.
+Acesse o OpenWeatherMap e crie uma conta.
+Após o cadastro, gere uma chave de API que será usada para consultar as condições climáticas de uma cidade.
 Passo 2: Criar um Tópico no SNS
-Acesse o AWS Management Console e navegue até o Amazon SNS.
+Acesse o Console da AWS e navegue até Amazon SNS.
 Crie um novo tópico (por exemplo, "Notificações de Clima").
-No tópico, adicione os endereços de e-mail que devem receber as notificações.
-Copie o ARN do tópico SNS, que será utilizado na função Lambda.
+No tópico, adicione os e-mails que devem receber as notificações.
+Copie o ARN do tópico SNS. Este ARN será utilizado na função Lambda para enviar as notificações.
 Passo 3: Configurar a Função Lambda
-No Console da AWS, vá até AWS Lambda.
-Crie uma nova função Lambda com o runtime Python 3.9.
-No código da função, substitua as variáveis API_KEY pela sua chave do OpenWeatherMap e ARN_DO_TOPICO pelo ARN do seu tópico SNS.
+No Console da AWS, vá até AWS Lambda e crie uma nova função com o runtime Python 3.9.
+No código da função, substitua as variáveis:
+API_KEY: Sua chave de API do OpenWeatherMap.
+ARN_DO_TOPICO: O ARN do seu tópico SNS copiado no passo anterior.
+
 Passo 4: Configurar o EventBridge
-Acesse o Amazon EventBridge no Console AWS.
-Crie uma nova regra para agendar a execução da função Lambda. Você pode configurar a frequência, como por exemplo, "a cada 1 hora" ou "diariamente".
+Acesse o Amazon EventBridge no Console da AWS.
+Crie uma nova regra para agendar a execução da função Lambda. Defina a frequência para a execução, como, por exemplo, "a cada 1 hora" ou "diariamente".
 Na configuração da regra, defina a função Lambda como destino da regra para que ela seja executada automaticamente conforme a programação.
 Passo 5: Testar a Função Lambda
-Crie um evento de teste para disparar a função Lambda manualmente.
+Crie um evento de teste no Console do Lambda para disparar a função manualmente.
 Verifique se o e-mail com as condições climáticas é enviado corretamente.
+🌐 Conclusão
+Agora, sua função Lambda está configurada para enviar notificações de clima por e-mail, com a execução automática programada através do Amazon EventBridge.
+
+💡 Melhorias Possíveis
+Adicionar mais cidades para monitoramento.
+Implementar mensagens personalizadas de alerta, dependendo das condições climáticas (ex: alertas de chuva, calor intenso).
+Integrar a função com outros serviços de comunicação, como SMS ou Slack.
+📑 Licença
+Este projeto está sob a licença MIT License. Veja o arquivo LICENSE para mais detalhes.
+
